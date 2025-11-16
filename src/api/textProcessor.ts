@@ -3,6 +3,7 @@ import { config } from "@/constants/config";
 export interface ProcessTextRequest {
   natural_language_query: string;
   user_id: string;
+  model: "api" | "llm";
 }
 
 export interface ProcessTextResponse {
@@ -24,6 +25,7 @@ export type StreamChunkHandler = (response: ProcessTextResponse) => void;
 export async function processTextStream(
   message: string,
   userId: string,
+  model: "api" | "llm",
   onChunk: StreamChunkHandler
 ): Promise<void> {
   const API_URL = `${config.apiUrl}/process-text`;
@@ -37,6 +39,7 @@ export async function processTextStream(
     body: JSON.stringify({
       natural_language_query: message,
       user_id: userId,
+      model: model,
     } as ProcessTextRequest),
   });
 

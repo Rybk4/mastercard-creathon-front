@@ -4,6 +4,7 @@ import type { ProcessTextResponse } from "../api/textProcessor";
 import { processResponse } from "../utils/responseProcessor";
 import type { ProcessedResponse } from "../utils/responseProcessor";
 import { useUserIp } from "./useUserIp";
+import type { ModelType } from "../components/ModelSelector";
 
 export function useStreaming() {
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ export function useStreaming() {
   const sendMessage = useCallback(
     async (
       message: string,
+      model: ModelType,
       onResponse: (processed: ProcessedResponse) => void,
       onError?: (error: string) => void
     ) => {
@@ -24,7 +26,7 @@ export function useStreaming() {
       try {
         let lastResponse: ProcessTextResponse | null = null;
 
-        await processTextStream(message, userId, (response) => {
+        await processTextStream(message, userId, model, (response) => {
           lastResponse = response;
 
           try {

@@ -39,8 +39,10 @@ export const ChartView: React.FC<ChartViewProps> = ({
       <Typography variant="h6" sx={{ mb: 2 }}>
         {title}
       </Typography>
-      <Box sx={{ width: "100%", height: 400, mb: 1 }}>
-        <ResponsiveContainer width="100%" height="100%">
+      <Box
+        sx={{ width: "100%", height: 400, mb: 1, minWidth: 0, minHeight: 400 }}
+      >
+        <ResponsiveContainer width="100%" height="100%" minHeight={400}>
           <BarChart data={data as Record<string, unknown>[]}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={xAxisKey} />

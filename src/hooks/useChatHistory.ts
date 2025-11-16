@@ -12,6 +12,7 @@ export interface ChatMessage {
   metadata?: {
     row_count?: number;
     execution_time_ms?: number;
+    sql_query?: string;
   };
 }
 

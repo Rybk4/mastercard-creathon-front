@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { Container, Typography, Box, Paper, Button } from "@mui/material";
 import { useChatHistory, useStreaming } from "@/hooks";
 import { WelcomeMessage, ChatMessage, ChatInput } from "@/components";
+import { ModelSelector } from "@/components/ModelSelector";
+import type { ModelType } from "@/components/ModelSelector";
 import { theme } from "@/theme";
 import logo from "@/assets/logo.svg";
 
 function Dashboard() {
   const [message, setMessage] = useState("");
+  const [selectedModel, setSelectedModel] = useState<ModelType>("api");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { messages, showWelcome, addMessage, updateMessage, clearHistory } =
@@ -47,6 +50,7 @@ function Dashboard() {
     try {
       await sendMessage(
         userMessage.content,
+        selectedModel,
         (processed) => {
           updateMessage(assistantMessageId, {
             content: processed.content,
@@ -110,6 +114,7 @@ function Dashboard() {
           py: "16px",
           borderBottom: `2px solid`,
           borderColor: theme.palette.primary.main,
+          position: "relative",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -125,17 +130,36 @@ function Dashboard() {
           <Typography
             variant="h4"
             component="h1"
-            sx={{ fontWeight: 600, color: "primary.main" }}
+            sx={{
+              fontWeight: 600,
+              color: "primary.main",
+              display: { xs: "none", sm: "block" },
+            }}
           >
             TextQL
           </Typography>
         </Box>
+
+        <Box
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <ModelSelector
+            selectedModel={selectedModel}
+            onModelChange={setSelectedModel}
+          />
+        </Box>
+
         {messages.length > 0 && (
           <Button
             variant="outlined"
             size="small"
             onClick={handleClearHistory}
             disabled={loading}
+            sx={{ display: { xs: "none", sm: "block" } }}
           >
             Новый чат
           </Button>

@@ -4,5 +4,5 @@ export * from "./ChatInput";
 export * from "./TableView";
 export * from "./ChartView";
 export * from "./LoadingIndicator";
-export * from "./themeSwitcher"
-
+export * from "./themeSwitcher";
+export * from "./ModelSelector";
