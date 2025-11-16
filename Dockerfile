@@ -10,6 +10,6 @@ RUN npm install --production
 COPY dist ./dist
 COPY vite.config.ts ./
 
-EXPOSE 9000
+EXPOSE 9001
 
 CMD ["npm", "run", "preview"]
