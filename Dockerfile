@@ -1,21 +1,15 @@
-FROM node:20-alpine AS builder
+
+FROM node:20-alpine
+
 WORKDIR /src/app
 
 COPY package.json package-lock.json ./
-RUN npm install
 
-COPY . .
-RUN npm run build
+RUN npm install --production
 
-FROM node:20-alpine AS production
-WORKDIR /src/app
+COPY dist ./dist
+COPY vite.config.ts ./
 
-COPY --from=builder /src/app/node_modules ./node_modules
+EXPOSE 9000
 
-COPY package.json vite.config.ts ./
-
-COPY --from=builder /src/app/dist ./dist
-
-EXPOSE 9204
-
-CMD [ "npm", "run", "preview" ]
+CMD ["npm", "run", "preview"]
